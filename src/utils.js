@@ -1,6 +1,13 @@
 import { area, stack, stackOffsetSilhouette } from 'd3-shape';
-import { extent, merge } from 'd3-array';
-import { scaleBand, scaleLinear } from 'd3-scale';
+import moment from 'moment';
+
+import { extent, merge, range } from 'd3-array';
+import { scaleBand, scaleLinear, scaleOrdinal, scaleUtc } from 'd3-scale';
+
+export let colors = scaleOrdinal()
+  .range(range(100).map(() => {
+    return `rgb(0,${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
+  }));
 
 export function getUpdateHandler(keyFunc) {
   return function(mounted, removed, data) {
@@ -33,7 +40,7 @@ export function getUpdateHandler(keyFunc) {
     for (let key in mounted) {
       if (!result[key] && !removed[key]) {
         result[key] = {
-          datum: mounted[key].data,
+          datum: mounted[key].datum,
           stage: 'removing',
           index: mounted[key].index
         };
@@ -41,12 +48,8 @@ export function getUpdateHandler(keyFunc) {
     }
 
     return result;
+  }
 }
-
-
-
-
-
 
 // Adapted from https://bl.ocks.org/mbostock/4060954
 function genRandomSeries(m) {
