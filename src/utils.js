@@ -1,13 +1,6 @@
 import { area, stack, stackOffsetSilhouette } from 'd3-shape';
-import moment from 'moment';
-
-import { extent, merge, range } from 'd3-array';
-import { scaleBand, scaleLinear, scaleOrdinal, scaleUtc } from 'd3-scale';
-
-export let colors = scaleOrdinal()
-  .range(range(100).map(() => {
-    return `rgb(0,${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
-  }));
+import { extent, merge } from 'd3-array';
+import { scaleBand, scaleLinear } from 'd3-scale';
 
 export function getUpdateHandler(keyFunc) {
   return function(mounted, removed, data) {
