@@ -1,20 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Container } from '../components/common/Container';
-import { Bar } from '../components/Bar';
-import { updateSortOrder, updateTopCount, removedNode } from '../actions/exampleActions';
+import { Container } from './common/Container';
+import { Bar } from './Bar';
+import { fetchData, updateSortOrder, updateTopCount, removedNode } from '../actions/exampleActions';
 import { Table, TableRow, TableRowColumn, TableBody } from 'material-ui/table';
 import {Card, CardHeader } from 'material-ui/Card';
 import Slider from 'material-ui/Slider';
 import FlatButton from 'material-ui/FlatButton';
-import { Axis } from '../components/Axis';
+import { Axis } from './Axis';
 import { format } from 'd3-format';
 
 const percentFormat = format('.1%');
 
 let ages = ['Under 5 Years', '5 to 13 Years', '14 to 17 Years', '18 to 24 Years', '16 Years and Over', '18 Years and Over', '15 to 44 Years', '45 to 64 Years', '65 Years and Over', '85 Years and Over'];
 
-export class App extends Component {
+export class Example extends Component {
 
   constructor(props) {
     super(props);
@@ -26,9 +26,9 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    let { dispatch, sortKey } = this.props;
+    let { dispatch } = this.props;
 
-    dispatch(updateSortOrder(sortKey));
+    dispatch(fetchData());
   }
 
   removeItem(key) {
@@ -68,11 +68,7 @@ export class App extends Component {
 
     let tableRows = ages.map(age => {
       return (
-        <TableRow
-          key={age}
-          selected={sortKey === age}
-          style={{cursor: 'pointer'}}
-        >
+        <TableRow selected={sortKey === age} style={{cursor: 'pointer'}}>
           <TableRowColumn>{age}</TableRowColumn>
         </TableRow>
       );
@@ -154,7 +150,7 @@ export class App extends Component {
   }
 }
 
-App.propTypes = {
+Example.propTypes = {
   view: PropTypes.array.isRequired,
   trbl: PropTypes.array.isRequired,
   xScale: PropTypes.func.isRequired,
@@ -177,5 +173,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(Example);
 
